@@ -1,11 +1,4 @@
 <mat-toolbar color="primary">
-  <a class="mat-button" style="font-size: 20px; min-width: 0px; padding: 0px" routerLink="/">Nästa tvärbana</a>
+    Nästa tvärbana
 </mat-toolbar>
-
-<button (click)="onClickGetStations()">Get Stations</button>
-<button (click)="onClickGetClosest()">Get Closest</button>
-
-<div>{{lat}},{{lon}}</div>
-<div *ngFor="let stop of response">
-  {{ stop.name }}
-</div>
+<router-outlet></router-outlet>

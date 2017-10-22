@@ -2,17 +2,33 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { MatCardModule, MatToolbarModule, MatSelectModule, MatButtonModule, NoConflictStyleCompatibilityMode } from '@angular/material';
+import {
+  MatCardModule,
+  MatToolbarModule,
+  MatSelectModule,
+  MatButtonModule,
+  NoConflictStyleCompatibilityMode,
+  MatProgressBarModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-
 import { AppComponent } from './app.component';
+import { TramCountdownComponent } from './tram-countdown/tram-countdown.component';
+
+import { DepartureService } from './services/departure.service';
+import { StationService } from './services/station.service';
+import { StopService } from './services/stop.service';
+
+const appRoutes: Routes = [
+  { path: '', component: TramCountdownComponent},
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TramCountdownComponent
   ],
   imports: [
     BrowserModule,
@@ -24,9 +40,11 @@ import { AppComponent } from './app.component';
     MatSelectModule,
     MatButtonModule,
     NoConflictStyleCompatibilityMode,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatProgressBarModule,
+    RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [StopService, StationService, DepartureService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
