@@ -34,7 +34,7 @@ export class StationService {
     params = params.append('la', '' + position.coords.latitude);
     params = params.append('lo', '' + position.coords.longitude);
 
-    this.http.get<number>('http://localhost:8080/station/closestId', {params: params} ).subscribe(data => {
+    this.http.get<number>('https://tram-api.wiklandia.io/station/closestId', {params: params} ).subscribe(data => {
       console.log(data);
       this.selectedStop.next(data);
     });
