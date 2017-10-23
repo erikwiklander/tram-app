@@ -1,8 +1,5 @@
-<mat-card *ngIf="!selectedStopId">
-  <mat-card-content>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    </mat-card-content>
-</mat-card>
+<mat-progress-bar mode="indeterminate" *ngIf="!selectedStopId"></mat-progress-bar>
+<mat-progress-bar mode="determinate" value="0" *ngIf="selectedStopId"></mat-progress-bar>
 
 <mat-card *ngIf="selectedStopId">
   <mat-card-header>
@@ -18,16 +15,3 @@
       </mat-form-field>
     </mat-card-content>
 </mat-card>
-
-
-<!--
-
-<mat-form-field>
-  <mat-select placeholder="Från" [(ngModel)]="selectedStopId">
-    <mat-option *ngFor="let stop of stops" [value]="stop.id">
-      {{ stop.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-
--->
