@@ -1,17 +1,43 @@
-<mat-progress-bar mode="indeterminate" *ngIf="!selectedStopId"></mat-progress-bar>
-<mat-progress-bar mode="determinate" value="0" *ngIf="selectedStopId"></mat-progress-bar>
-
-<mat-card *ngIf="selectedStopId">
+<!-- <mat-progress-bar mode="indeterminate" value="0" *ngIf="!selectedStopId"></mat-progress-bar> -->
+<mat-progress-bar [mode]="getMode()" value="0"></mat-progress-bar>
+<mat-card *ngIf="selectedStopId" style="padding-bottom: 0px">
   <mat-card-header>
       <mat-card-title>Vilken hållplats ska du åka ifrån?</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-form-field>
-        <mat-select placeholder="Från" [(ngModel)]="selectedStopId">
-          <mat-option *ngFor="let stop of stops" [value]="stop.id">
-            {{ stop.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div style="font-size:150%">  
+        <mat-form-field>
+          <mat-select [(ngModel)]="selectedStopId" (change)="onStopChange()">
+            <mat-option *ngFor="let stop of stops" [value]="stop.id">
+              {{ stop.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </mat-card-content>
 </mat-card>
+
+<mat-card *ngIf="selectedStopId">
+      <mat-card-content>
+            <div>
+              <button mat-raised-button [color]="direction === 'solna' ? 'primary' : ''" (click)="onClickChangeDirection('solna')">MOT SOLNA</button>
+              <button mat-raised-button [color]="direction === 'sickla' ? 'primary' : ''" (click)="onClickChangeDirection('sickla')">MOT SICKLA</button>
+            </div>
+      </mat-card-content>
+</mat-card>
+
+<mat-card *ngFor="let departure of departures">
+    <mat-card-header>
+      <mat-card-title>kl. {{ departure.depDate.getHours() < 10 ? '0' + departure.depDate.getHours() : departure.depDate.getHours() }}.{{ departure.depDate.getMinutes() < 10 ? '0' + departure.depDate.getMinutes() : departure.depDate.getMinutes() }}</mat-card-title>
+      <mat-card-subtitle>{{departure.end}}</mat-card-subtitle>
+      <div mat-card-avatar class="material-icons" style="text-align: center; font-size: 40px">tram</div>
+    </mat-card-header>
+    <mat-card-content>
+      Nedräkning: {{ departure.millis | countdown}}
+    </mat-card-content>
+</mat-card>
+
+<div style="text-align: center; padding-top: 15px" *ngIf="selectedStopId">
+    <button mat-button (click)="onClickChangeVisible(1)" style="margin-bottom: 100px">VISA FLER</button>
+    <button mat-button (click)="onClickChangeVisible(-1)" *ngIf="departures.length > 1" style="margin-bottom: 100px">VISA FÄRRE</button>
+</div>

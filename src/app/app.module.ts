@@ -19,6 +19,7 @@ import { TramCountdownComponent } from './tram-countdown/tram-countdown.componen
 import { DepartureService } from './services/departure.service';
 import { StationService } from './services/station.service';
 import { StopService } from './services/stop.service';
+import { CountdownPipe } from './countdown.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: TramCountdownComponent},
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    TramCountdownComponent
+    TramCountdownComponent,
+    CountdownPipe
   ],
   imports: [
     BrowserModule,
