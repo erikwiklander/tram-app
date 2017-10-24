@@ -64,6 +64,10 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
     this.stationService.updateSelectedStation(this.selectedStopId);
   }
 
+  public onClickGetLocation() {
+    this.stationService.getLocation();
+  }
+
   public onClickChangeVisible(num: number) {
     this.stationService.addNumberOfDeps(num);
   }

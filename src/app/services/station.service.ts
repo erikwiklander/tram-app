@@ -36,16 +36,8 @@ export class StationService {
 
     setInterval(() => this.updateDepartures(), 1000);
 
-    console.log('Getting position...');
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        console.log('Position here', position);
-        this.getClosestStation(position);
-      },
-      error => {
-        console.log('Error: ', error);
-        this.selectedStop.next(740021705);
-      });
+    this.getLocation();
+
   }
 
   changeDirection(direction: string) {
@@ -77,6 +69,7 @@ export class StationService {
     params = params.append('lo', '' + position.coords.longitude);
 
     this.http.get<number>(environment.backend + '/closestId', {params: params} ).subscribe(data => {
+      this.updateSelectedStation(data);
       this.selectedStop.next(data);
     });
   }
@@ -107,6 +100,23 @@ export class StationService {
   public addNumberOfDeps(num: number) {
     this.numberOfDeps = (this.numberOfDeps + num);
     this.updateDepartures();
+  }
+
+  public getLocation() {
+    console.log('Getting position...');
+    this.selectedStop.next(null);
+    this.departuresTowardsSickla = [];
+    this.departuresTowardsSolna = [];
+    this.updateDepartures();
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        console.log('Position here', position);
+        this.getClosestStation(position);
+      },
+      error => {
+        console.log('Error: ', error);
+        this.selectedStop.next(740021705);
+      });
   }
 
   private parseDate(strDate: string): Date {

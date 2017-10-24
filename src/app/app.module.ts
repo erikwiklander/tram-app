@@ -8,7 +8,8 @@ import {
   MatSelectModule,
   MatButtonModule,
   NoConflictStyleCompatibilityMode,
-  MatProgressBarModule } from '@angular/material';
+  MatProgressBarModule,
+  MatIconModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -44,6 +45,7 @@ const appRoutes: Routes = [
     NoConflictStyleCompatibilityMode,
     FlexLayoutModule,
     MatProgressBarModule,
+    MatIconModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [StopService, StationService, DepartureService],
