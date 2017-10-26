@@ -1,6 +1,18 @@
 <!-- <mat-progress-bar mode="indeterminate" value="0" *ngIf="!selectedStopId"></mat-progress-bar> -->
 <mat-progress-bar [mode]="getMode()" value="0"></mat-progress-bar>
-<mat-card *ngIf="selectedStopId" style="padding-bottom: 0px">
+
+<mat-card *ngIf="error" color="primary">
+    <mat-card-header>
+      <mat-card-title>{{error.status}} {{error.error}}</mat-card-title>
+      <mat-card-subtitle>{{error.message}}</mat-card-subtitle>
+      <div mat-card-avatar class="material-icons" style="text-align: center; font-size: 40px; color: red">error</div>
+    </mat-card-header>
+    <mat-card-content>
+      Tjänsten fungerar ej för tillfället. Prova igen senare
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="selectedStopId || error" style="padding-bottom: 0px">
   <mat-card-header>
       <mat-card-title>Vilken hållplats ska du åka ifrån?</mat-card-title>
     </mat-card-header>

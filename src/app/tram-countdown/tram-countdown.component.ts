@@ -7,6 +7,7 @@ import { StopService } from './../services/stop.service';
 import { StationService } from './../services/station.service';
 import { Subscription } from 'rxjs/Subscription';
 import { CountdownDeparture } from '../model/countdown-departure.model';
+import { ServerError } from '../model/server-error.model';
 
 @Component({
   selector: 'app-tram-countdown',
@@ -22,7 +23,9 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
   direction = 'solna';
   private selectedStopsubscription: Subscription;
   private depSubscription: Subscription;
+  private errorSubscription: Subscription;
   departures: CountdownDeparture[] = [];
+  error: ServerError;
 
   ngOnInit() {
     this.stops = this.stopService.getAllStops().reverse();
@@ -37,11 +40,14 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
     this.depSubscription = this.stationService.getDepartureBehavior().subscribe(
       (deps: CountdownDeparture[]) => this.departures = deps
     );
+
+    this.errorSubscription = this.stationService.getErrorBehavior().subscribe(
+      (error: ServerError) => this.error = error);
   }
 
   public getMode() {
 
-    if ((this.direction === 'solna' && this.selectedStopId === 740000759)
+    if (this.error || (this.direction === 'solna' && this.selectedStopId === 740000759)
           || (this.direction === 'sickla' && this.selectedStopId === 740024807)) {
             return 'determinate';
     }
@@ -75,6 +81,7 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.selectedStopsubscription.unsubscribe();
     this.depSubscription.unsubscribe();
+    this.errorSubscription.unsubscribe();
   }
 
 }

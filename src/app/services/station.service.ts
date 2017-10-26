@@ -1,3 +1,4 @@
+import { ServerError } from './../model/server-error.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -11,6 +12,7 @@ import { StopService } from './stop.service';
 
 import 'rxjs/Rx';
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class StationService {
@@ -21,6 +23,7 @@ export class StationService {
 
   selectedStop = <BehaviorSubject<number>>new BehaviorSubject(null);
   departures = <BehaviorSubject<CountdownDeparture[]>>new BehaviorSubject([]);
+  error = <BehaviorSubject<ServerError>>new BehaviorSubject(null);
   currentStop: number;
 
   departuresTowardsSickla: Departure[] = [];
@@ -31,6 +34,10 @@ export class StationService {
 
   getDepartureBehavior(): BehaviorSubject<CountdownDeparture[]> {
     return this.departures;
+  }
+
+  getErrorBehavior(): BehaviorSubject<ServerError> {
+    return this.error;
   }
 
   private setInitialStation() {
@@ -78,10 +85,11 @@ export class StationService {
 
     this.http.get<number>(environment.backend + '/closestId', {params: params} ).subscribe(data => {
       this.selectedStop.next(data);
-    });
+    }, (errorResponse: HttpErrorResponse) => this.error.next(this.createError(errorResponse)));
   }
 
   updateSelectedStation(id: number) {
+    this.error.next(null);
     if (id) {
       console.log('updateSelectedStation', id);
       this.currentStop = id;
@@ -111,7 +119,7 @@ export class StationService {
           this.departuresTowardsSolna = departures;
         }
         this.updateDepartures();
-      });
+      }, (errorResponse: HttpErrorResponse) => this.error.next(this.createError(errorResponse)));
   }
 
   public addNumberOfDeps(num: number) {
@@ -140,5 +148,9 @@ export class StationService {
   private parseDate(strDate: string): Date {
     return strDate ? moment(strDate, moment.ISO_8601).toDate() : null;
   }
+
+  private createError(errorResponse: HttpErrorResponse): ServerError {
+    return new ServerError(errorResponse.error['status'], errorResponse.error['error'], errorResponse.error['message']);
+}
 
 }
