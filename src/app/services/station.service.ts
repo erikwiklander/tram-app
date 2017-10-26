@@ -21,6 +21,7 @@ export class StationService {
 
   selectedStop = <BehaviorSubject<number>>new BehaviorSubject(null);
   departures = <BehaviorSubject<CountdownDeparture[]>>new BehaviorSubject([]);
+  currentStop: number;
 
   departuresTowardsSickla: Departure[] = [];
   departuresTowardsSolna: Departure[] = [];
@@ -33,8 +34,14 @@ export class StationService {
   }
 
   private setInitialStation() {
-    setInterval(() => this.updateDepartures(), 1000);
+
     this.getLocation();
+
+    // update counter every second
+    setInterval(() => this.updateDepartures(), 1000);
+
+    // refresh data with back end every 30 minutes
+    setInterval(() => this.updateBackend(this.currentStop),  30 * 60 * 1000);
   }
 
   changeDirection(direction: string) {
@@ -75,10 +82,17 @@ export class StationService {
   }
 
   updateSelectedStation(id: number) {
-    console.log('updateSelectedStation', id);
-    this.departuresTowardsSickla = [];
-    this.departuresTowardsSolna = [];
-    this.updateDepartures();
+    if (id) {
+      console.log('updateSelectedStation', id);
+      this.currentStop = id;
+      this.departuresTowardsSickla = [];
+      this.departuresTowardsSolna = [];
+      this.updateDepartures();
+      this.updateBackend(id);
+    }
+  }
+
+  updateBackend(id: number) {
     this.getDepartures(id, 'sickla');
     this.getDepartures(id, 'solna');
   }
