@@ -33,14 +33,12 @@ export class StationService {
   }
 
   private setInitialStation() {
-
     setInterval(() => this.updateDepartures(), 1000);
-
     this.getLocation();
-
   }
 
   changeDirection(direction: string) {
+    console.log('Change direction', direction);
     this.direction = direction;
     this.numberOfDeps = 2;
     this.updateDepartures();
@@ -53,8 +51,8 @@ export class StationService {
     for (let i = 0; i < deps.length; i++) {
       const depDate = deps[i].rtDate ? deps[i].rtDate : deps[i].tableDate;
       const millis = depDate.getTime() - now.getTime();
-      if (millis > 0) {
-        countdown.push(new CountdownDeparture(depDate, millis, deps[i].rtDate != null, deps[i].end));
+      if (millis > -45000) {
+        countdown.push(new CountdownDeparture(depDate, millis, deps[i].rtDate != null, deps[i].end, deps[i].current));
         if (countdown.length === this.numberOfDeps) {
           break;
         }
@@ -64,17 +62,20 @@ export class StationService {
   }
 
   getClosestStation(position: Position) {
+
+    console.log('getClosestStation', position);
+
     let params = new HttpParams();
     params = params.append('la', '' + position.coords.latitude);
     params = params.append('lo', '' + position.coords.longitude);
 
     this.http.get<number>(environment.backend + '/closestId', {params: params} ).subscribe(data => {
-      this.updateSelectedStation(data);
       this.selectedStop.next(data);
     });
   }
 
   updateSelectedStation(id: number) {
+    console.log('updateSelectedStation', id);
     this.departuresTowardsSickla = [];
     this.departuresTowardsSolna = [];
     this.updateDepartures();
@@ -83,10 +84,12 @@ export class StationService {
   }
 
   private getDepartures(id: number, destination: string) {
+    console.log('getDepartures', id, destination);
     let params = new HttpParams();
     params = params.append('id', '' + id);
     return this.http.get<any[]>(environment.backend + '/' + destination, {params: params})
-      .map(deps => deps.map(dep => new Departure(this.parseDate(dep['rtDepTime']), this.parseDate(dep['depTime']), dep['end'])))
+      .map(deps => deps.map(dep =>
+        new Departure(this.parseDate(dep['rtDepTime']), this.parseDate(dep['depTime']), dep['end'], dep['current'])))
       .subscribe(departures => {
         if (destination === 'sickla') {
           this.departuresTowardsSickla = departures;
@@ -103,6 +106,7 @@ export class StationService {
   }
 
   public getLocation() {
+
     console.log('Getting position...');
     this.selectedStop.next(null);
     this.departuresTowardsSickla = [];

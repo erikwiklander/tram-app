@@ -7,6 +7,11 @@ export class CountdownPipe implements PipeTransform {
 
   transform(value: number): string {
     if (value) {
+
+      if (value < 0) {
+        return 'Nu';
+      }
+
       let t = value;
       const hours = Math.floor(t / 1000 / 60 / 60);
       t = t % (1000 * 60 * 60);

@@ -31,8 +31,8 @@
 
 <mat-card *ngFor="let departure of departures">
     <mat-card-header>
-      <mat-card-title>kl. {{ departure.depDate.getHours() < 10 ? '0' + departure.depDate.getHours() : departure.depDate.getHours() }}.{{ departure.depDate.getMinutes() < 10 ? '0' + departure.depDate.getMinutes() : departure.depDate.getMinutes() }}</mat-card-title>
-      <mat-card-subtitle>{{departure.end}}</mat-card-subtitle>
+      <mat-card-title>{{departure.current}} {{ departure.depDate | deptime}}</mat-card-title>
+      <mat-card-subtitle>mot {{departure.end}}</mat-card-subtitle>
       <div mat-card-avatar class="material-icons" style="text-align: center; font-size: 40px">tram</div>
     </mat-card-header>
     <mat-card-content>

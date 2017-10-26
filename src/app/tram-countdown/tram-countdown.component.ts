@@ -41,8 +41,8 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
 
   public getMode() {
 
-    if ((this.direction === 'solna' && this.selectedStopId === 740024929)
-          || this.direction === 'sickla' && this.selectedStopId === 740024807) {
+    if ((this.direction === 'solna' && this.selectedStopId === 740000759)
+          || (this.direction === 'sickla' && this.selectedStopId === 740024807)) {
             return 'determinate';
     }
 

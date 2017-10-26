@@ -17,10 +17,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { TramCountdownComponent } from './tram-countdown/tram-countdown.component';
 
-import { DepartureService } from './services/departure.service';
 import { StationService } from './services/station.service';
 import { StopService } from './services/stop.service';
 import { CountdownPipe } from './countdown.pipe';
+import { DeptimePipe } from './deptime.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: TramCountdownComponent},
@@ -31,7 +31,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     TramCountdownComponent,
-    CountdownPipe
+    CountdownPipe,
+    DeptimePipe
   ],
   imports: [
     BrowserModule,
@@ -48,7 +49,7 @@ const appRoutes: Routes = [
     MatIconModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [StopService, StationService, DepartureService],
+  providers: [StopService, StationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
