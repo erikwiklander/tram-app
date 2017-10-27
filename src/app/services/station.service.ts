@@ -65,7 +65,7 @@ export class StationService {
     for (let i = 0; i < deps.length; i++) {
       const depDate = deps[i].rtDate ? deps[i].rtDate : deps[i].tableDate;
       const millis = depDate.getTime() - now.getTime();
-      if (millis > -45000) {
+      if (millis > -60000) {
         countdown.push(new CountdownDeparture(depDate, millis, deps[i].rtDate != null, deps[i].end, deps[i].current));
         if (countdown.length === this.numberOfDeps) {
           break;
