@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backend: 'https://tram-api.wiklandia.io'
+  backend: 'https://tram-api.cfapps.io'
 };
