@@ -20,10 +20,11 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
 
   stops: Stop[];
   selectedStopId: number;
-  direction = 'solna';
+  direction: string;
   private selectedStopsubscription: Subscription;
   private depSubscription: Subscription;
   private errorSubscription: Subscription;
+  private directionSubsription: Subscription;
   departures: CountdownDeparture[] = [];
   error: ServerError;
 
@@ -43,6 +44,9 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
 
     this.errorSubscription = this.stationService.getErrorBehavior().subscribe(
       (error: ServerError) => this.error = error);
+
+    this.directionSubsription = this.stationService.getDirectionBehavior().subscribe(
+      (direction: string) => this.direction = direction);
   }
 
   public getMode() {
@@ -62,7 +66,6 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
   }
 
   public onClickChangeDirection(direction: string) {
-    this.direction = direction;
     this.stationService.changeDirection(direction);
   }
 
@@ -82,6 +85,7 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
     this.selectedStopsubscription.unsubscribe();
     this.depSubscription.unsubscribe();
     this.errorSubscription.unsubscribe();
+    this.directionSubsription.unsubscribe();
   }
 
 }

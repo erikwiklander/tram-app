@@ -24,12 +24,12 @@ export class StationService {
   selectedStop = <BehaviorSubject<number>>new BehaviorSubject(null);
   departures = <BehaviorSubject<CountdownDeparture[]>>new BehaviorSubject([]);
   error = <BehaviorSubject<ServerError>>new BehaviorSubject(null);
+  direction2 = <BehaviorSubject<string>>new BehaviorSubject('solna');
   currentStop: number;
 
   departuresTowardsSickla: Departure[] = [];
   departuresTowardsSolna: Departure[] = [];
 
-  direction = 'solna';
   numberOfDeps = 2;
 
   getDepartureBehavior(): BehaviorSubject<CountdownDeparture[]> {
@@ -38,6 +38,10 @@ export class StationService {
 
   getErrorBehavior(): BehaviorSubject<ServerError> {
     return this.error;
+  }
+
+  getDirectionBehavior(): BehaviorSubject<string> {
+    return this.direction2;
   }
 
   private setInitialStation() {
@@ -53,14 +57,15 @@ export class StationService {
 
   changeDirection(direction: string) {
     console.log('Change direction', direction);
-    this.direction = direction;
     this.numberOfDeps = 2;
+    this.saveDirection(direction);
+    this.direction2.next(this.getDirection());
     this.updateDepartures();
   }
 
   updateDepartures() {
     const now = new Date();
-    const deps = this.direction === 'solna' ? this.departuresTowardsSolna : this.departuresTowardsSickla;
+    const deps = this.getDirection() === 'solna' ? this.departuresTowardsSolna : this.departuresTowardsSickla;
     const countdown: (CountdownDeparture)[] = [];
     for (let i = 0; i < deps.length; i++) {
       const depDate = deps[i].rtDate ? deps[i].rtDate : deps[i].tableDate;
@@ -97,6 +102,7 @@ export class StationService {
       this.departuresTowardsSolna = [];
       this.updateDepartures();
       this.updateBackend(id);
+      this.direction2.next(this.getDirection());
     }
   }
 
@@ -151,6 +157,27 @@ export class StationService {
 
   private createError(errorResponse: HttpErrorResponse): ServerError {
     return new ServerError(errorResponse.error['status'], errorResponse.error['error'], errorResponse.error['message']);
-}
+  }
+
+  private saveDirection(direction: string) {
+    try {
+      localStorage.setItem('' + this.currentStop, direction);
+    } catch (error) {
+      // ignore
+    }
+  }
+
+  private getDirection(): string {
+    try {
+      const dir = localStorage.getItem('' + this.currentStop);
+      if (dir) {
+        return dir;
+      } else {
+        return 'solna';
+      }
+    } catch (error) {
+      return 'solna';
+    }
+  }
 
 }
