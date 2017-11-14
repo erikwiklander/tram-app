@@ -114,8 +114,8 @@ export class StationService {
   private getDepartures(id: number, destination: string) {
     console.log('getDepartures', id, destination);
     let params = new HttpParams();
-    params = params.append('id', '' + id);
-    return this.http.get<any[]>(environment.backend + '/' + destination, {params: params})
+    params = params.append('id', '' + id).append('direction', destination);
+    return this.http.get<any[]>(environment.backend + '/dep', {params: params})
       .map(deps => deps.map(dep =>
         new Departure(this.parseDate(dep['rtDepTime']), this.parseDate(dep['depTime']), dep['end'], dep['current'])))
       .subscribe(departures => {
