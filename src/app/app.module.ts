@@ -19,6 +19,7 @@ import { TramCountdownComponent } from './tram-countdown/tram-countdown.componen
 
 import { StationService } from './services/station.service';
 import { StopService } from './services/stop.service';
+import { DisruptionService } from './services/disruption.service';
 import { CountdownPipe } from './countdown.pipe';
 import { DeptimePipe } from './deptime.pipe';
 
@@ -49,7 +50,7 @@ const appRoutes: Routes = [
     MatIconModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [StopService, StationService],
+  providers: [StopService, StationService, DisruptionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

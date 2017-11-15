@@ -1,5 +1,11 @@
-<!-- <mat-progress-bar mode="indeterminate" value="0" *ngIf="!selectedStopId"></mat-progress-bar> -->
+<mat-toolbar color="primary">
+    Nästa tvärbana
+</mat-toolbar>
 <mat-progress-bar [mode]="getMode()" value="0"></mat-progress-bar>
+
+  <button mat-fab color="warn" class="app-fab" *ngIf="disruptions.length > 0">
+    <mat-icon>warning</mat-icon>
+  </button>
 
 <mat-card *ngIf="error" color="primary">
     <mat-card-header>

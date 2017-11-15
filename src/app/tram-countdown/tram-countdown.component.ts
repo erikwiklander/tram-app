@@ -3,11 +3,15 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+import { Subscription } from 'rxjs/Subscription';
+
 import { StopService } from './../services/stop.service';
 import { StationService } from './../services/station.service';
-import { Subscription } from 'rxjs/Subscription';
+import { DisruptionService } from './../services/disruption.service';
 import { CountdownDeparture } from '../model/countdown-departure.model';
+import { Disruption } from '../model/disruption.model';
 import { ServerError } from '../model/server-error.model';
+import { Subscribable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-tram-countdown',
@@ -16,7 +20,7 @@ import { ServerError } from '../model/server-error.model';
 })
 export class TramCountdownComponent implements OnInit, OnDestroy {
 
-  constructor(private stopService: StopService, private stationService: StationService) {}
+  constructor(private stopService: StopService, private stationService: StationService, private disruptionService: DisruptionService) {}
 
   stops: Stop[];
   selectedStopId: number;
@@ -25,7 +29,9 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
   private depSubscription: Subscription;
   private errorSubscription: Subscription;
   private directionSubsription: Subscription;
+  private disruptionSubscrption: Subscription;
   departures: CountdownDeparture[] = [];
+  disruptions: Disruption[] = [];
   error: ServerError;
 
   ngOnInit() {
@@ -47,6 +53,12 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
 
     this.directionSubsription = this.stationService.getDirectionBehavior().subscribe(
       (direction: string) => this.direction = direction);
+
+    this.disruptionSubscrption = this.disruptionService.getDepartureBehavior().subscribe(
+      (disruptions: Disruption[]) => this.disruptions = disruptions
+    );
+
+    this.disruptionService.updateDisruptures();
   }
 
   public getMode() {
@@ -67,14 +79,17 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
 
   public onClickChangeDirection(direction: string) {
     this.stationService.changeDirection(direction);
+    this.disruptionService.updateDisruptures();
   }
 
   public onStopChange() {
     this.stationService.updateSelectedStation(this.selectedStopId);
+    this.disruptionService.updateDisruptures();
   }
 
   public onClickGetLocation() {
     this.stationService.getLocation();
+    this.disruptionService.updateDisruptures();
   }
 
   public onClickChangeVisible(num: number) {

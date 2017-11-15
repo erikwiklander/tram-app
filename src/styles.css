@@ -2,3 +2,12 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 body { margin: 0px}
+
+.app-fab {
+    top: auto !important; 
+    right: 40px !important; 
+    bottom: 100px !important; 
+    left: auto !important; 
+    position: fixed !important; 
+    z-index: 100;
+}
