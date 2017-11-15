@@ -3,7 +3,7 @@
 </mat-toolbar>
 <mat-progress-bar [mode]="getMode()" value="0"></mat-progress-bar>
 
-  <button mat-fab color="warn" class="app-fab" *ngIf="disruptions.length > 0">
+  <button mat-fab color="warn" class="app-fab" *ngIf="disruptions.length > 0" [routerLink]="['/disruptions']">
     <mat-icon>warning</mat-icon>
   </button>
 

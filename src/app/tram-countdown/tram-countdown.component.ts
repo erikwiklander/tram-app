@@ -58,7 +58,7 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
       (disruptions: Disruption[]) => this.disruptions = disruptions
     );
 
-    this.disruptionService.updateDisruptures();
+    this.disruptionService.updateDisruptions();
   }
 
   public getMode() {
@@ -79,17 +79,17 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
 
   public onClickChangeDirection(direction: string) {
     this.stationService.changeDirection(direction);
-    this.disruptionService.updateDisruptures();
+    this.disruptionService.updateDisruptions();
   }
 
   public onStopChange() {
     this.stationService.updateSelectedStation(this.selectedStopId);
-    this.disruptionService.updateDisruptures();
+    this.disruptionService.updateDisruptions();
   }
 
   public onClickGetLocation() {
     this.stationService.getLocation();
-    this.disruptionService.updateDisruptures();
+    this.disruptionService.updateDisruptions();
   }
 
   public onClickChangeVisible(num: number) {

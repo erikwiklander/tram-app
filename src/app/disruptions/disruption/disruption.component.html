@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+    Trafikstörningar
+</mat-toolbar>
+<mat-progress-bar mode="'determinate'" value="0"></mat-progress-bar>
+
+  <button mat-fab class="app-fab" [routerLink]="['/']">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <mat-card *ngFor="let disruption of disruptions" color="primary">
+      <mat-card-header>
+        <mat-card-title>{{disruption.header}}</mat-card-title>
+        <mat-card-subtitle>{{disruption.description}}</mat-card-subtitle>
+        <div mat-card-avatar class="material-icons" style="text-align: center; font-size: 40px; color: red">error</div>
+      </mat-card-header>
+  </mat-card>

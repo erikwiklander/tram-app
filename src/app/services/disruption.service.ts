@@ -11,15 +11,15 @@ export class DisruptionService {
 
   constructor(private http: HttpClient) { }
 
-  disruptures = <BehaviorSubject<Disruption[]>>new BehaviorSubject([]);
+  disruptions = <BehaviorSubject<Disruption[]>>new BehaviorSubject([]);
 
   getDepartureBehavior(): BehaviorSubject<Disruption[]> {
-    return this.disruptures;
+    return this.disruptions;
   }
 
-  updateDisruptures() {
+  updateDisruptions() {
     this.http.get<Disruption[]>(environment.backend + '/disruptions').subscribe(
-      disruptures => this.disruptures.next(disruptures),
+      disruptions => this.disruptions.next(disruptions),
       (errorResponse: HttpErrorResponse) => console.log('Could not get disruptions', errorResponse)
     );
   }
