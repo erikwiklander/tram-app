@@ -23,10 +23,12 @@ import { DisruptionService } from './services/disruption.service';
 import { CountdownPipe } from './countdown.pipe';
 import { DeptimePipe } from './deptime.pipe';
 import { DisruptionComponent } from './disruptions/disruption/disruption.component';
+import { AboutComponent } from './about/about/about.component';
 
 const appRoutes: Routes = [
   { path: '', component: TramCountdownComponent},
   { path: 'disruptions', component: DisruptionComponent},
+  { path: 'about', component: AboutComponent},
   { path: '**', redirectTo: '' }
 ];
 
@@ -36,7 +38,8 @@ const appRoutes: Routes = [
     TramCountdownComponent,
     CountdownPipe,
     DeptimePipe,
-    DisruptionComponent
+    DisruptionComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,12 @@
 <mat-toolbar color="primary">
-    Nästa tvärbana
+    <div fxFlex="grow">
+        Nästa tvärbana
+    </div>
+    <div>
+        <button mat-button style="min-width: 0px" [routerLink]="['/about']">
+            <mat-icon>details</mat-icon>
+          </button>
+    </div>
 </mat-toolbar>
 <mat-progress-bar [mode]="getMode()" value="0"></mat-progress-bar>
 
@@ -32,8 +39,8 @@
           </mat-select>
         </mat-form-field>
         <button mat-button style="min-width: 0px" (click)="onClickGetLocation()">
-            <mat-icon>gps_fixed</mat-icon>
-          </button>
+          <mat-icon>gps_fixed</mat-icon>
+        </button>
       </div>
     </mat-card-content>
 </mat-card>
