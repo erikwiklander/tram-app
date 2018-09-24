@@ -7,7 +7,6 @@ import {
   MatToolbarModule,
   MatSelectModule,
   MatButtonModule,
-  NoConflictStyleCompatibilityMode,
   MatProgressBarModule,
   MatIconModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
@@ -50,7 +49,6 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatSelectModule,
     MatButtonModule,
-    NoConflictStyleCompatibilityMode,
     FlexLayoutModule,
     MatProgressBarModule,
     MatIconModule,

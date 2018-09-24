@@ -11,7 +11,7 @@ import { Departure } from './../model/departure.model';
 import { StopService } from './stop.service';
 
 import 'rxjs/Rx';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
@@ -152,7 +152,7 @@ export class StationService {
   }
 
   private parseDate(strDate: string): Date {
-    return strDate ? moment(strDate, moment.ISO_8601).toDate() : null;
+    return strDate ? moment.tz(strDate, moment.ISO_8601, 'Europe/Stockholm').toDate() : null;
   }
 
   private createError(errorResponse: HttpErrorResponse): ServerError {
