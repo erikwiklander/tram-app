@@ -32,7 +32,7 @@
     <mat-card-content>
       <div style="font-size:140%">  
         <mat-form-field style="width: 220px">
-          <mat-select [(ngModel)]="selectedStopId" (change)="onStopChange()">
+          <mat-select [(ngModel)]="selectedStopId" (selectionChange)="onStopChange()">
             <mat-option *ngFor="let stop of stops" [value]="stop.id">
               {{ stop.name }}
             </mat-option>
