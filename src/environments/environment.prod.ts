@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backend: 'https://aws-tram.wiklandia.io'
+  backend: 'https://europe-west1-ew-func.cloudfunctions.net'
 };
