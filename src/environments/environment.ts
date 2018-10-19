@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  backend: 'http://localhost:5000/ew-func/us-central1'
+  backend: 'http://localhost:5001/ew-func/us-central1'
 };

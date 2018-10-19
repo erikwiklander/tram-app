@@ -1,9 +1,7 @@
 import { Stop } from './../model/stop.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subscription ,  Subscribable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
-import { Subscription } from 'rxjs/Subscription';
 
 import { StopService } from './../services/stop.service';
 import { StationService } from './../services/station.service';
@@ -11,7 +9,6 @@ import { DisruptionService } from './../services/disruption.service';
 import { CountdownDeparture } from '../model/countdown-departure.model';
 import { Disruption } from '../model/disruption.model';
 import { ServerError } from '../model/server-error.model';
-import { Subscribable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-tram-countdown',

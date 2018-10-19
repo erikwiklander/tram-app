@@ -1,9 +1,10 @@
+
+import {map} from 'rxjs/operators';
 import { ServerError } from './../model/server-error.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { environment } from './../../environments/environment';
 import { CountdownDeparture } from './../model/countdown-departure.model';
@@ -115,9 +116,9 @@ export class StationService {
     console.log('getDepartures', id, destination);
     let params = new HttpParams();
     params = params.append('id', '' + id).append('direction', destination);
-    return this.http.get<any[]>(environment.backend + '/dep', {params: params})
-      .map(deps => deps.map(dep =>
-        new Departure(this.parseDate(dep['rtDepTime']), this.parseDate(dep['depTime']), dep['end'], dep['current'])))
+    return this.http.get<any[]>(environment.backend + '/dep', {params: params}).pipe(
+      map(deps => deps.map(dep =>
+        new Departure(this.parseDate(dep['rtDepTime']), this.parseDate(dep['depTime']), dep['end'], dep['current']))))
       .subscribe(departures => {
         if (destination === 'sickla') {
           this.departuresTowardsSickla = departures;
