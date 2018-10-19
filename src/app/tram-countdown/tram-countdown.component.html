@@ -30,13 +30,13 @@
       <mat-card-title>Vilken hållplats ska du åka ifrån?</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div style="font-size:140%">  
-        <mat-form-field style="width: 220px">
-          <mat-select [(ngModel)]="selectedStopId" (selectionChange)="onStopChange()">
-            <mat-option *ngFor="let stop of stops" [value]="stop.id">
+      <div style="font-size:140%">
+        <mat-form-field>
+          <select matNativeControl required [(ngModel)]="selectedStopId" (change)="onStopChange()">
+            <option *ngFor="let stop of stops" [value]="stop.id">
               {{ stop.name }}
-            </mat-option>
-          </mat-select>
+            </option>
+          </select>
         </mat-form-field>
         <button mat-button style="min-width: 0px" (click)="onClickGetLocation()">
           <mat-icon>gps_fixed</mat-icon>

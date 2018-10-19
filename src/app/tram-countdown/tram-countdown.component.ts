@@ -20,7 +20,7 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
   constructor(private stopService: StopService, private stationService: StationService, private disruptionService: DisruptionService) {}
 
   stops: Stop[];
-  selectedStopId: number;
+  selectedStopId: string;
   direction: string;
   private selectedStopsubscription: Subscription;
   private depSubscription: Subscription;
@@ -35,7 +35,7 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
     this.stops = this.stopService.getAllStops().reverse();
     this.selectedStopsubscription = this.stationService.selectedStop
       .subscribe((id: number) => {
-        this.selectedStopId = id;
+        this.selectedStopId = '' + id;
         if (id) {
           this.stationService.updateSelectedStation(id);
         }
@@ -60,8 +60,8 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
 
   public getMode() {
 
-    if (this.error || (this.direction === 'solna' && this.selectedStopId === 740000759)
-          || (this.direction === 'sickla' && this.selectedStopId === 740024807)) {
+    if (this.error || (this.direction === 'solna' && +this.selectedStopId === 740000759)
+          || (this.direction === 'sickla' && +this.selectedStopId === 740024807)) {
             return 'determinate';
     }
 
@@ -80,7 +80,7 @@ export class TramCountdownComponent implements OnInit, OnDestroy {
   }
 
   public onStopChange() {
-    this.stationService.updateSelectedStation(this.selectedStopId);
+    this.stationService.updateSelectedStation(+this.selectedStopId);
     this.disruptionService.updateDisruptions();
   }
 
