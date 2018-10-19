@@ -31,7 +31,7 @@
     </mat-card-header>
     <mat-card-content>
       <div style="font-size:140%">
-        <mat-form-field>
+        <mat-form-field style="width: 240px">
           <select matNativeControl required [(ngModel)]="selectedStopId" (change)="onStopChange()">
             <option *ngFor="let stop of stops" [value]="stop.id">
               {{ stop.name }}
@@ -56,12 +56,16 @@
 
 <mat-card *ngFor="let departure of departures">
     <mat-card-header>
-      <mat-card-title>{{departure.current}} {{ departure.depDate | deptime}}</mat-card-title>
+      <mat-card-title>
+        <div style="font-size: 80%">
+            {{departure.current}} {{ departure.depDate | deptime}}
+        </div>
+      </mat-card-title>
       <mat-card-subtitle>mot {{departure.end}}</mat-card-subtitle>
       <div mat-card-avatar class="material-icons" style="text-align: center; font-size: 40px">tram</div>
     </mat-card-header>
     <mat-card-content>
-      Nedräkning: {{ departure.millis | countdown}}
+          Nedräkning: {{ departure.millis | countdown}}
     </mat-card-content>
 </mat-card>
 
@@ -69,3 +73,4 @@
     <button mat-button (click)="onClickChangeVisible(1)" style="margin-bottom: 100px">VISA FLER</button>
     <button mat-button (click)="onClickChangeVisible(-1)" *ngIf="departures.length > 1" style="margin-bottom: 100px">VISA FÄRRE</button>
 </div>
+<img src="assets/Wiklandia.gif" style="display:none;" />
